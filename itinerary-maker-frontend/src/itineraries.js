@@ -1,9 +1,10 @@
+let itineraryId;
+
 function fetchItineraries(userData){
  fetch(ITINERARIES_URL)
  .then(resp => resp.json())
  .then((itineraries) => renderItinerariers(userData, itineraries))
 }
-let itineraryId;
 
 function renderItinerariers(userData, itineraries){
   let specificItin = itineraries.filter(itinerary => {
@@ -48,10 +49,5 @@ function createActivityListItems(activities){
 function createActivityLi(activity){
   const activityLi = document.createElement('li')
   activityLi.innerHTML = activity.name
-  // const deleteActivityBtn = document.createElement('button');
-  // deleteActivityBtn.innerText = "delete"
-  // deleteActivityBtn.className = "delete"
-  // deleteActivityBtn.dataset['id'] = activity.id
-  // activityLi.append(deleteActivityBtn)
   return activityLi
 }

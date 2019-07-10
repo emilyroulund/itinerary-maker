@@ -1,3 +1,11 @@
+const activitiesDiv = document.createElement('div')
+activitiesDiv.className = "activitiesDiv"
+activitiesDiv.id = "activitiesDiv"
+
+const eventContainer = document.createElement('div')
+eventContainer.className = "event"
+
+
 function locationEventListener(location){
   location.addEventListener('click', () => {
     const selectedIt = location.dataset.id
@@ -7,13 +15,7 @@ function locationEventListener(location){
 
   })
 }
-const activitiesDiv = document.createElement('div')
-activitiesDiv.className = "activitiesDiv"
-activitiesDiv.id = "activitiesDiv"
 
-
-const eventContainer = document.createElement('div')
-eventContainer.className = "event"
 
 function showItineraryCard(itinerary){
   const main = document.getElementById("main")
@@ -50,9 +52,7 @@ function showItineraryCard(itinerary){
   addActivityClickListener(addActivityBtn)
 }
 
-
 function renderActivity(activity){
-    // const activitiesDiv = document.getElementById('activitiesDiv')
     const activityName = document.createElement('h4')
     activityName.dataset.id = activity.id
     const activityDate = document.createElement('h6')
@@ -67,7 +67,6 @@ function renderActivity(activity){
     deleteActivityBtn.className = "delete"
     deleteActivityBtn.dataset['id'] = activity.id
 
-
     activityInfo.append(activityName)
     activityInfo.append(activityDate)
     activityInfo.append(activityTime)
@@ -77,7 +76,6 @@ function renderActivity(activity){
     activityEventListener(activityName)
     return activityInfo
 }
-
 
 function addActivityClickListener(addActivityBtn){
   const mainElement = document.getElementById('main')
@@ -181,7 +179,6 @@ function addActivity(addButton){
       .then(resp => resp.json())
       .then(activity => renderActivity(activity))
       form.reset()
-
   })
 }
 

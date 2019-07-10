@@ -1,7 +1,5 @@
 
-
 function showActivityPage(activity){
-  console.log(activity)
   const main = document.getElementById("main")
   main.innerHTML = '';
   const activityContainer = document.createElement('div')
@@ -19,12 +17,9 @@ function showActivityPage(activity){
   const activityImageDiv = document.createElement('div')
   const activityImage = document.createElement('img')
   activityImage.src = activity.image
-  // const activityLikes = document.createElement('span')
 
   const commentsDiv = document.createElement('div')
   commentsDiv.id = "commentsDiv"
-  // const activityCreator = document.createElement('p')
-  // activityCreator.innerHTML = activity.user_id.name
   const commentsList = document.createElement('div')
   commentsList.id = "commentsList"
   commentsDiv.append(commentsList)
@@ -32,7 +27,6 @@ function showActivityPage(activity){
   activityComments.forEach((commentP) => {
     commentsList.append(commentP);
   })
-
 
   const commentForm = document.createElement('form')
   const commentInput = document.createElement('input')
@@ -49,7 +43,6 @@ function showActivityPage(activity){
   activityDetailsDiv.append(activityDateTime)
   activityDetailsDiv.append(activityLink)
   activityDetailsDiv.append(activityImageDiv)
-  // activityDetailsDiv.append(activityCreator)
   activityTitleDiv.append(activityTitle)
   activityContainer.append(activityTitleDiv)
   activityContainer.append(activityDetailsDiv)
@@ -76,7 +69,6 @@ function createCommentsPItems(comments){
   })
   return answer
 }
-
 
 function addCommentListener(addCommentBtn, commentInput){
   addCommentBtn.addEventListener("click", (e)=>{
@@ -111,27 +103,6 @@ function addCommentListener(addCommentBtn, commentInput){
   })
 }
 
-// function buildCommentForm(){
-//
-// }
-
-
-// function commentForm(){
-//   commentForm.addEventListener("submit", (e) => {
-//     e.preventDefault()
-//     console.log(e)
-//     let newComment = document.createElement('li')
-//     const commentField = document.getElementById('comment_input').value
-//     newComment.append(commentField)
-//     commentsUl.append(newComment)
-//
-//   })
-// }
-
-
-
-
-// The following adds activities and deletes them from the main page
 // function handleAddActivity(e){
 //   const reqObj = {
 //     method: 'POST',

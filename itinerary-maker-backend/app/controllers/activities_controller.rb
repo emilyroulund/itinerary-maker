@@ -16,11 +16,8 @@ class ActivitiesController < ApplicationController
   end
 
   def destroy
-    puts '--------------------'
     puts params
-
     activity = Activity.find(params[:id])
-        puts activity
     activity.destroy
 
     render json: { message: 'success' }
