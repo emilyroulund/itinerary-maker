@@ -1,7 +1,6 @@
 function locationEventListener(location){
   location.addEventListener('click', () => {
     const selectedIt = location.dataset.id
-
   fetch(`${ITINERARIES_URL}/${selectedIt}`)
     .then(resp => resp.json())
     .then(data => showItineraryCard(data))
@@ -12,19 +11,18 @@ const activitiesDiv = document.createElement('div')
 activitiesDiv.className = "activitiesDiv"
 activitiesDiv.id = "activitiesDiv"
 
+
+const eventContainer = document.createElement('div')
+eventContainer.className = "event"
+
 function showItineraryCard(itinerary){
   const main = document.getElementById("main")
-  const eventContainer = document.createElement('div')
   const titleDiv = document.createElement('div')
   const title = document.createElement('h2')
-  // const date = document.createElement('h3')
   const activityUl = document.createElement('ul')
-
   main.innerHTML = '';
-  eventContainer.className = "event"
   titleDiv.className = "titleDiv"
   title.innerHTML = `${itinerary.location}, ${itinerary.date}`
-  // date.innerHTML = itinerary.date
 
 
   let activities = itinerary.activities
@@ -36,25 +34,24 @@ function showItineraryCard(itinerary){
     activitiesDiv.append(activityDiv)
   })
   const activityBtnDiv = document.createElement('div')
-  const addActivity = document.createElement('button')
-  addActivity.innerHTML = "Add Activity"
-  addActivity.className = "add"
-  addActivity.dataset.id = itinerary.id
+  const addActivityBtn = document.createElement('button')
+  addActivityBtn.innerHTML = "Add Activity"
+  addActivityBtn.className = "add"
+  addActivityBtn.dataset.id = itinerary.id
 
   titleDiv.append(title)
   eventContainer.append(titleDiv)
   activitiesDiv.append(activityUl)
   eventContainer.append(activitiesDiv)
-  activityBtnDiv.append(addActivity)
+  activityBtnDiv.append(addActivityBtn)
   eventContainer.append(activityBtnDiv)
   main.append(eventContainer)
 
-  addActivityClickListener()
+  addActivityClickListener(addActivityBtn)
 }
 
+
 function renderActivity(activity){
-    const eventContainer = document.createElement('div')
-    eventContainer.className = "event"
     // const activitiesDiv = document.getElementById('activitiesDiv')
     const activityName = document.createElement('h4')
     activityName.dataset.id = activity.id
@@ -62,13 +59,6 @@ function renderActivity(activity){
     const activityTime = document.createElement('h6')
     const activityInfo = document.createElement('div')
     const deleteActivityBtn = document.createElement('button');
-
-
-    // const activityLink = document.createElement('a')
-    // const activityImage = document.createElement('img')
-    // activityLink.href = activity.link
-    // activityLink.innerHTML = "Check it out!"
-    // activityImage.src = activity.image
 
     activityName.innerHTML = activity.name
     activityDate.innerHTML = activity.date
@@ -81,8 +71,6 @@ function renderActivity(activity){
     activityInfo.append(activityName)
     activityInfo.append(activityDate)
     activityInfo.append(activityTime)
-    // activityInfo.append(activityLink)
-    // activityInfo.append(activityImage)
     activityInfo.append(deleteActivityBtn)
     activitiesDiv.append(activityInfo)
 
@@ -91,19 +79,21 @@ function renderActivity(activity){
 }
 
 
-function addActivityClickListener(){
+function addActivityClickListener(addActivityBtn){
   const mainElement = document.getElementById('main')
   mainElement.addEventListener('click', (e) => {
     if (e.target.className === 'add') {
       e.target.style.display = 'none'
-      createAddActivityForm()
+      createAddActivityForm(addActivityBtn)
     } else if (e.target.className === 'delete'){
+      console.log(e)
       handleDeleteActivity(e)
     }
   })
 }
 
 function handleDeleteActivity(e){
+  console.log(e.target.dataset.id)
   fetch(`${ACTIVITIES_URL}/${e.target.dataset.id}`, {method: 'DELETE'})
   .then(resp => resp.json())
   .then(data => deleteActivity(e))
@@ -113,16 +103,15 @@ function deleteActivity(e){
   e.target.parentNode.remove()
 }
 
-
-/////when you click "Add Activity" this form shows up
-function createAddActivityForm (){
+function createAddActivityForm (addActivityBtn){
   const activityForm = document.createElement('form')
-  activityForm.id = "addActivity"
+  activityForm.id = "addActivityForm"
   const formDiv = document.createElement('div')
   formDiv.className = "container"
   const addButton = document.createElement('button')
   addButton.type = "submit"
   addButton.innerText = "Add"
+  addButton.dataset.id = addActivityBtn.dataset.id
   const nameLabel = document.createElement('label')
   nameLabel.innerHTML = " Name of Activity: "
   const nameInput = document.createElement('input')
@@ -149,8 +138,6 @@ function createAddActivityForm (){
   imageInput.className = "input"
   imageInput.id = "imageInput"
 
-  const activityContainer = document.getElementById('activitiesDiv')
-
   formDiv.append(nameLabel)
   formDiv.append(nameInput)
   formDiv.append(dateLabel)
@@ -163,22 +150,20 @@ function createAddActivityForm (){
   formDiv.append(imageInput)
   formDiv.append(addButton)
   activityForm.append(formDiv)
-  activityContainer.append(activityForm)
+  eventContainer.append(activityForm)
 
   addActivity(addButton)
 }
 
-/// When the form shows and you click "add"
 function addActivity(addButton){
   addButton.addEventListener('click', (e)=> {
     e.preventDefault(e)
-    const form = document.getElementById("addActivity")
+    const form = document.getElementById("addActivityForm")
     const name = document.getElementById('nameInput').value
     const date = document.getElementById('dateInput').value
     const time = document.getElementById('timesInput').value
     const link = document.getElementById('linkInput').value
     const image = document.getElementById('imageInput').value
-
     let reqObj = {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
@@ -198,7 +183,6 @@ function addActivity(addButton){
       form.reset()
 
   })
-
 }
 
 function activityEventListener(activityName){
