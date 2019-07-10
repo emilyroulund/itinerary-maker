@@ -1,13 +1,4 @@
-function activityEventListener(activityName){
-  activityName.addEventListener("click", ()=>{
-    const selectedActivity = activityName.dataset.id
 
-  fetch(`${ACTIVITIES_URL}/${selectedActivity}`)
-    .then(resp => resp.json())
-    .then(data => showActivityPage(data))
-  })
-
-}
 
 function showActivityPage(activity){
   console.log(activity)
@@ -19,12 +10,14 @@ function showActivityPage(activity){
   const activityTitle = document.createElement('h2')
   activityTitle.innerHTML = activity.name
   const activityDetailsDiv = document.createElement('div')
-  const activityDateTime = document.createElement('p')
+  const activityDateTime = document.createElement('h4')
   activityDateTime.innerText = `${activity.date}, ${activity.times}`
-  const activityLink = document.createElement('p')
-  activityLink.innerHTML = activity.like
+  const activityLink = document.createElement('a')
+  activityLink.href = activity.link
+  activityLink.target = '_blank';
+  activityLink.innerHTML = "Click Here for More Info"
   const activityImageDiv = document.createElement('div')
-  const activityImage = document.createElement('image')
+  const activityImage = document.createElement('img')
   activityImage.src = activity.image
   // const activityLikes = document.createElement('span')
 
@@ -32,9 +25,12 @@ function showActivityPage(activity){
   commentsDiv.id = "commentsDiv"
   // const activityCreator = document.createElement('p')
   // activityCreator.innerHTML = activity.user_id.name
+  const commentsList = document.createElement('div')
+  commentsList.id = "commentsList"
+  commentsDiv.append(commentsList)
   const activityComments = createCommentsPItems(activity.comments)
   activityComments.forEach((commentP) => {
-    commentsDiv.append(commentP);
+    commentsList.append(commentP);
   })
 
 
@@ -54,19 +50,20 @@ function showActivityPage(activity){
   activityDetailsDiv.append(activityLink)
   activityDetailsDiv.append(activityImageDiv)
   // activityDetailsDiv.append(activityCreator)
-  activityTitle.append(activityDetailsDiv)
   activityTitleDiv.append(activityTitle)
   activityContainer.append(activityTitleDiv)
+  activityContainer.append(activityDetailsDiv)
   activityContainer.append(commentsDiv)
   main.append(activityContainer)
 }
 
 function renderComments(comment){
   let commentP = document.createElement('p')
+  commentP.id = "commentP"
   commentP.innerHTML = comment.content
   const deleteCommentBtn = document.createElement('button');
   deleteCommentBtn.innerText = "delete"
-  deleteCommentBtn.className = "delete"
+  deleteCommentBtn.className = "deleteBtn"
   deleteCommentBtn.dataset['id'] = comment.id
   commentP.append(deleteCommentBtn)
   return commentP
@@ -82,7 +79,7 @@ function createCommentsPItems(comments){
 
 
 function addCommentListener(addCommentBtn, commentInput){
-  addCommentBtn.addEventListener("click", ()=>{
+  addCommentBtn.addEventListener("click", (e)=>{
 
     const commentContent = commentInput.value
     let commentP = document.createElement('p')
@@ -91,27 +88,8 @@ function addCommentListener(addCommentBtn, commentInput){
     deleteCommentBtn.innerText = "delete"
     deleteCommentBtn.className = "delete"
     commentP.append(deleteCommentBtn)
-    let commentDiv = document.getElementById('commentsDiv')
-    commentDiv.append(commentP)
-    return commentP
-
-    fetch(COMMENTS_URL)
-  })
-}
-
-function buildCommentForm(){
-
-}
-
-
-function commentForm(){
-  commentForm.addEventListener("submit", (e) => {
-    e.preventDefault()
-    let newComment = document.createElement('li')
-    const commentField = document.getElementById('comment_input').value
-    newComment.append(commentField)
-    commentsUl.append(newComment)
-
+    let commentList = document.getElementById('commentsList')
+    commentList.append(commentP)
 
     let reqObj = {
       method: "POST",
@@ -120,16 +98,35 @@ function commentForm(){
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-          image_id: imageId,
-          content: commentField
+          // activity_id: comment.,
+          // user_id:
+          content: commentContent
       })
 
     }
-    fetch(commentsURL, reqObj)
+    fetch(COMMENTS_URL, reqObj)
     .then (resp => resp.json())
-    commentForm.reset()
+    .then(console.log(e.target.parentNode))
+    commentInput.value = ""
   })
 }
+
+// function buildCommentForm(){
+//
+// }
+
+
+// function commentForm(){
+//   commentForm.addEventListener("submit", (e) => {
+//     e.preventDefault()
+//     console.log(e)
+//     let newComment = document.createElement('li')
+//     const commentField = document.getElementById('comment_input').value
+//     newComment.append(commentField)
+//     commentsUl.append(newComment)
+//
+//   })
+// }
 
 
 
@@ -154,23 +151,21 @@ function commentForm(){
 //   e.target.nextSibling.append(activityLi)
 // }
 
-// function handleDeleteActivity(e){
-//   fetch(`${ACTIVITIES_URL}/${e.target.dataset.id}`, {method: 'DELETE'})
-//     .then(resp => resp.json())
-//     .then(data => deleteActivity(e))
-// }
+function handleDeleteComment(e){
+  fetch(`${COMMENTS_URL}/${e.target.dataset.id}`, {method: 'DELETE'})
+    .then(resp => resp.json())
+    .then(data => deleteComment(e))
+}
 
-// function deleteActivity(e){
-//   e.target.parentNode.remove()
-// }
+function deleteComment(e){
+  e.target.parentNode.remove()
+}
 
-// function addClickListener(){
-//   const mainElement = document.querySelector('main')
-//   mainElement.addEventListener('click', (e) => {
-//     if (e.target.className === 'add') {
-//       handleAddActivity(e)
-//     } else if (e.target.className === 'delete'){
-//       handleDeleteActivity(e)
-//     }
-//   })
-// }
+function addClickListener(){
+  const mainElement = document.querySelector('main')
+  mainElement.addEventListener('click', (e) => {
+    if (e.target.className === 'delete'){
+      handleDeleteComment(e)
+    }
+  })
+}

@@ -11,7 +11,7 @@ class ActivitiesController < ApplicationController
   end
 
   def create
-    activity = Activity.create(name: params[:name], date: params[:date], time: params[:time])
+    activity = Activity.create(name: params[:name], date: params[:date], times: params[:times], link: params[:link], image: params[:image], itinerary_id: params[:itinerary_id], user_id: params[:user_id])
     render json: activity
   end
 

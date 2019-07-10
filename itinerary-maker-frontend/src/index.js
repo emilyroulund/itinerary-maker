@@ -5,6 +5,7 @@ const USERS_URL = `${BASE_URL}/users`
 const USER_URL = `${BASE_URL}/users/login`
 const COMMENTS_URL = `${BASE_URL}/comments`
 
+let currentUser;
 function handleLogin(){
   const login = document.getElementById('login')
   login.addEventListener("submit", (e) => {
@@ -31,7 +32,10 @@ function logInPost(username){
     // console.log(username)
   fetch(USER_URL, reqObj)
   .then(resp => resp.json())
-  .then(userData => fetchItineraries(userData))
+  .then(userData => {
+    currentUser = userData;
+    fetchItineraries(userData)
+  })
   logIn()
 }
 

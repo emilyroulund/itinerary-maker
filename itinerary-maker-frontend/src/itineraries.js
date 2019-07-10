@@ -3,6 +3,7 @@ function fetchItineraries(userData){
  .then(resp => resp.json())
  .then((itineraries) => renderItinerariers(userData, itineraries))
 }
+let itineraryId;
 
 function renderItinerariers(userData, itineraries){
   let specificItin = itineraries.filter(itinerary => {
@@ -54,4 +55,3 @@ function createActivityLi(activity){
   // activityLi.append(deleteActivityBtn)
   return activityLi
 }
-  // addA
