@@ -16,7 +16,6 @@ class ActivitiesController < ApplicationController
   end
 
   def destroy
-    puts params
     activity = Activity.find(params[:id])
     activity.destroy
 

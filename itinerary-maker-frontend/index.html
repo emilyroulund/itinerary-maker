@@ -3,33 +3,51 @@
   <head>
     <meta charset="utf-8">
     <title>Itinerary</title>
-    <!-- <link rel="stylesheet" href="styles.css"> -->
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <header>
-      <h2>Itineraries</h2>
-    </header>
 
-    <form id= "login" action="action_page.php">
+    <main id='main'>
+      <header>
+        <h2 id = "itinerary-title">Itineraries</h2>
+      </header>
+    <!-- <header>
+      <h2>Itineraries</h2>
+    </header> -->
+
+    <div class="limiter">
+      <!-- <div class="container-login100"> -->
+          <div class="wrap-login100">
+            <div class="login100-more" style="background-image: url('https://img.theculturetrip.com/1024x574/smart/wp-content/uploads/2016/04/5458300997_5463b01b9d_b.jpg');"></div>
+
+            <form class="login100-form validate-form" id = "login">
+              <span class="login100-form-title p-b-34">
+                Account Login
+              </span>
+              <div class="wrap-input100 rs1-wrap-input100 validate-input m-b-20" data-validate="Type user name">
+                <input id="first-name" class="input100" type="text" name="username" placeholder="User name">
+                <span class="focus-input100"></span>
+              </div>
+              <div class="container-login100-form-btn">
+                <button class="login100-form-btn">
+                  Sign in
+                </button>
+              </div>
+          </form>
+          </div>
+
+      <!-- </div> -->
+    </div>
+
+
+    <!-- <form id= "login" action="action_page.php">
 
       <div class="container">
         <label for="username"><b>Username</b></label>
         <input id = "input" type="text" placeholder="Enter Username" name="username" required>
         <button type="submit">Login</button>
       </div>
-    </form>
-
-    <!-- <form id= "createActivity">
-      <div class="container">
-        <label for="username"><b>Activity</b></label>
-        <input id = "input" type="text" placeholder="Enter Username" name="username" required>
-        <button type="submit">Login</button>
-      </div>
     </form> -->
-
-
-
-    <main id = "main">
 
     </main>
 

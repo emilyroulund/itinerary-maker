@@ -1,41 +1,47 @@
 
 function showActivityPage(activity){
   const main = document.getElementById("main")
-  main.innerHTML = '';
   const activityContainer = document.createElement('div')
-  activityContainer.id = "activityContainer"
   const activityTitleDiv = document.createElement('div')
   const activityTitle = document.createElement('h2')
-  activityTitle.innerHTML = activity.name
   const activityDetailsDiv = document.createElement('div')
   const activityDateTime = document.createElement('h4')
-  activityDateTime.innerText = `${activity.date}, ${activity.times}`
   const activityLink = document.createElement('a')
+  const activityImageDiv = document.createElement('div')
+  const activityImage = document.createElement('img')
+
+  main.innerHTML = '';
+  activityContainer.id = "activityContainer"
+  activityTitle.innerHTML = activity.name
+  activityDateTime.innerText = `${activity.date}, ${activity.times}`
   activityLink.href = activity.link
   activityLink.target = '_blank';
   activityLink.innerHTML = "Click Here for More Info"
-  const activityImageDiv = document.createElement('div')
-  const activityImage = document.createElement('img')
   activityImage.src = activity.image
 
   const commentsDiv = document.createElement('div')
-  commentsDiv.id = "commentsDiv"
+  const activityComments = createCommentsPItems(activity.comments)
   const commentsList = document.createElement('div')
+  commentsDiv.id = "commentsDiv"
   commentsList.id = "commentsList"
   commentsDiv.append(commentsList)
-  const activityComments = createCommentsPItems(activity.comments)
   activityComments.forEach((commentP) => {
     commentsList.append(commentP);
   })
 
   const commentForm = document.createElement('form')
   const commentInput = document.createElement('input')
-  commentInput.id = "commentInput"
-  commentForm.append(commentInput)
   const addCommentBtn = document.createElement('button')
+
+  commentInput.id = "commentInput"
+  commentInput.dataset.id = activity.user_id
+  commentForm.append(commentInput)
   addCommentBtn.id = "addCommentBtn"
   addCommentBtn.innerHTML = "Add Comment"
+  addCommentBtn.dataset.id = activity.id
+
   addCommentListener(addCommentBtn, commentInput)
+  addClickListener()
 
   commentsDiv.append(commentForm)
   commentsDiv.append(addCommentBtn)
@@ -52,9 +58,9 @@ function showActivityPage(activity){
 
 function renderComments(comment){
   let commentP = document.createElement('p')
+  const deleteCommentBtn = document.createElement('button');
   commentP.id = "commentP"
   commentP.innerHTML = comment.content
-  const deleteCommentBtn = document.createElement('button');
   deleteCommentBtn.innerText = "delete"
   deleteCommentBtn.className = "deleteBtn"
   deleteCommentBtn.dataset['id'] = comment.id
@@ -75,12 +81,13 @@ function addCommentListener(addCommentBtn, commentInput){
 
     const commentContent = commentInput.value
     let commentP = document.createElement('p')
-    commentP.innerHTML = commentContent
     const deleteCommentBtn = document.createElement('button');
+    let commentList = document.getElementById('commentsList')
+
+    commentP.innerHTML = commentContent
     deleteCommentBtn.innerText = "delete"
     deleteCommentBtn.className = "delete"
     commentP.append(deleteCommentBtn)
-    let commentList = document.getElementById('commentsList')
     commentList.append(commentP)
 
     let reqObj = {
@@ -90,8 +97,8 @@ function addCommentListener(addCommentBtn, commentInput){
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-          // activity_id: comment.,
-          // user_id:
+          activity_id: addCommentBtn.dataset.id,
+          user_id: commentInput.dataset.id,
           content: commentContent
       })
 
@@ -103,29 +110,9 @@ function addCommentListener(addCommentBtn, commentInput){
   })
 }
 
-// function handleAddActivity(e){
-//   const reqObj = {
-//     method: 'POST',
-//     headers: { 'Content-Type': 'application/json'},
-//     body: JSON.stringify(
-//       {
-//         CREATE FORM FOR ADD ACTIVITY THEN PULL VALUES TO SEND TO POST REQUEST
-//         name: e.target.dataset.id}),
-//   }
-//   fetch(ACTIVITIES_URL, reqObj)
-//     .then(resp => resp.json())
-//     .then(data => createNewActivity(data, e))
-// }
-//
-// function createNewActivity (activity, e) {
-//   const activityLi = createActivityLi(activity)
-//   e.target.nextSibling.append(activityLi)
-// }
-
 function handleDeleteComment(e){
   fetch(`${COMMENTS_URL}/${e.target.dataset.id}`, {method: 'DELETE'})
-    .then(resp => resp.json())
-    .then(data => deleteComment(e))
+    deleteComment(e)
 }
 
 function deleteComment(e){
@@ -135,7 +122,7 @@ function deleteComment(e){
 function addClickListener(){
   const mainElement = document.querySelector('main')
   mainElement.addEventListener('click', (e) => {
-    if (e.target.className === 'delete'){
+    if (e.target.className === 'deleteBtn'){
       handleDeleteComment(e)
     }
   })

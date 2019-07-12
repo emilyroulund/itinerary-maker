@@ -37,12 +37,14 @@ function showItineraryCard(itinerary){
   })
   const activityBtnDiv = document.createElement('div')
   const addActivityBtn = document.createElement('button')
+  activityBtnDiv.className = 'activityBtnDiv'
   addActivityBtn.innerHTML = "Add Activity"
   addActivityBtn.className = "add"
+  addActivityBtn.id = "addActivityButton"
   addActivityBtn.dataset.id = itinerary.id
 
   titleDiv.append(title)
-  eventContainer.append(titleDiv)
+  main.append(titleDiv)
   activitiesDiv.append(activityUl)
   eventContainer.append(activitiesDiv)
   activityBtnDiv.append(addActivityBtn)
@@ -54,11 +56,12 @@ function showItineraryCard(itinerary){
 
 function renderActivity(activity){
     const activityName = document.createElement('h4')
-    activityName.dataset.id = activity.id
     const activityDate = document.createElement('h6')
     const activityTime = document.createElement('h6')
     const activityInfo = document.createElement('div')
     const deleteActivityBtn = document.createElement('button');
+    activityInfo.className = "card2"
+    activityName.dataset.id = activity.id
 
     activityName.innerHTML = activity.name
     activityDate.innerHTML = activity.date
@@ -103,36 +106,37 @@ function deleteActivity(e){
 
 function createAddActivityForm (addActivityBtn){
   const activityForm = document.createElement('form')
-  activityForm.id = "addActivityForm"
   const formDiv = document.createElement('div')
-  formDiv.className = "container"
   const addButton = document.createElement('button')
+  const nameLabel = document.createElement('label')
+  const nameInput = document.createElement('input')
+  const dateLabel = document.createElement('label')
+  const dateInput = document.createElement('input')
+  const timesLabel = document.createElement('label')
+  const timesInput = document.createElement('input')
+  const linkLabel = document.createElement('label')
+  const linkInput = document.createElement('input')
+  const imageLabel = document.createElement('label')
+  const imageInput = document.createElement('input')
+
+  activityForm.id = "addActivityForm"
+  formDiv.className = "container"
   addButton.type = "submit"
   addButton.innerText = "Add"
   addButton.dataset.id = addActivityBtn.dataset.id
-  const nameLabel = document.createElement('label')
   nameLabel.innerHTML = " Name of Activity: "
-  const nameInput = document.createElement('input')
   nameInput.className = "input"
   nameInput.id = "nameInput"
-  const dateLabel = document.createElement('label')
   dateLabel.innerHTML = " Date: "
-  const dateInput = document.createElement('input')
   dateInput.className = "input"
   dateInput.id = "dateInput"
-  const timesLabel = document.createElement('label')
   timesLabel.innerHTML = " Time: "
-  const timesInput = document.createElement('input')
   timesInput.className = "input"
   timesInput.id = "timesInput"
-  const linkLabel = document.createElement('label')
   linkLabel.innerHTML = " Link: "
-  const linkInput = document.createElement('input')
   linkInput.className = "input"
   linkInput.id = "linkInput"
-  const imageLabel = document.createElement('label')
   imageLabel.innerHTML = " Link to Image: "
-  const imageInput = document.createElement('input')
   imageInput.className = "input"
   imageInput.id = "imageInput"
 

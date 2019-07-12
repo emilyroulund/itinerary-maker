@@ -15,7 +15,7 @@ function handleLogin(){
 }
 
 function grabFormData(){
-  const formInput = document.getElementById('input')
+  const formInput = document.getElementById('first-name')
   const username = formInput.value
   logInPost(username)
 }
@@ -45,10 +45,12 @@ let loggedIn = true
 
 function logIn(){
 const form = document.getElementById('login')
+const limiter = document.querySelector('.limiter');
  loggedIn = !loggedIn
    if (loggedIn){
       //dashboard.style.display = 'block'
-       form.style.display = 'none'
+       // form.style.display = 'none'
+       limiter.innerHTML = '';
    } else{
        // dashboard.style.display = 'none'
        form.style.display = 'block'

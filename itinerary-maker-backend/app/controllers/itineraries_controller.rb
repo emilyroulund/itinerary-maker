@@ -11,7 +11,12 @@ class ItinerariesController < ApplicationController
   end
 
   def create
+    puts params
+    # grab the user thats coming in from param
     itinerary = Itinerary.create(location: params[:location], date: params[:date])
+    userplan = Userplan.create(user_id: params[:user], itinerary_id: itinerary.id)
+    # create userplans using the user and the itenerary
+
     render json: itinerary
   end
 
