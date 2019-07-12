@@ -54,6 +54,7 @@ function showActivityPage(activity){
   activityContainer.append(activityDetailsDiv)
   activityContainer.append(commentsDiv)
   main.append(activityContainer)
+  // createGoBackButton()
 }
 
 function renderComments(comment){
@@ -127,3 +128,10 @@ function addClickListener(){
     }
   })
 }
+
+// function createGoBackButton(){
+//   const goBackButton = document.createElement('button')
+//   const header = document.getElementsByClassName('titleDiv')
+//   goBackButton.innerHTML = "<<Back"
+//   header.append(goBackButton)
+// }
